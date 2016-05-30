@@ -11,7 +11,7 @@ import UIKit
 class resultViewController2: UIViewController {
     
     /**必须有 currentSettingModel 该属性*/
-    var currentSettingModel:SettingArrowLableModel?
+    var currentSettingModel:SettingArrowModel?
     
     lazy  var tableView:UITableView = {
         var tableView = UITableView.init(frame: self.view.bounds, style: .Plain)
@@ -51,7 +51,8 @@ extension resultViewController2:UITableViewDataSource, UITableViewDelegate{
         }
         cell?.textLabel?.text = self.dataArray[indexPath.row]
         cell?.accessoryType = .None
-        if (self.dataArray[indexPath.row] == self.currentSettingModel?.assistTitle){
+        let custom:UILabel =  self.currentSettingModel?.assistView as! UILabel
+        if (self.dataArray[indexPath.row] == custom.text){
             cell?.accessoryType = .Checkmark
             self.currentCell = cell
         }
@@ -59,7 +60,7 @@ extension resultViewController2:UITableViewDataSource, UITableViewDelegate{
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.currentSettingModel?.assistTitle = self.dataArray[indexPath.row]
+        self.currentSettingModel?.setAssistLabelText(self.dataArray[indexPath.row])
         self.currentCell?.accessoryType = .None
         tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
         self.currentCell =  tableView.cellForRowAtIndexPath(indexPath)

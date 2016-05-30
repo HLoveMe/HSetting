@@ -20,12 +20,12 @@ class HSettingTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         if let indexPath  = currentIndexPath{
             guard let vc = tempVC else{return}
-            let model = dataArray[indexPath.section].itemArray![indexPath.row] as! SettingArrowLableModel
+            let model = dataArray[indexPath.section].itemArray![indexPath.row] as! SettingArrowModel
             if !model.isTransferSelf {
                 guard let info = model.userInfo else{return}
                 var gen  = info.generate()
                 while let one = gen.next(){
-                    model.setAssistText(vc.valueForKeyPath(one.0) as! String)
+                    model.setAssistLabelText(vc.valueForKeyPath(one.0) as! String)
                 }
             }
             tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation:.None)
@@ -47,11 +47,11 @@ extension HSettingTableViewController{
         let  model  = group.itemArray![indexPath.row]
         /**得到辅助视图*/
         let view = setCell.getCurrentAssistView()
-        if let block = model.function{
+        if let block = model.afunction{
             block(nil,view,setCell)
         }
-        if model is SettingArrowLableModel {
-            let currentModel = model as! SettingArrowLableModel
+        if model is SettingArrowModel {
+            let currentModel = model as! SettingArrowModel
             guard let _ = currentModel.targetClazz else{return}
             let targer:UIViewController =  (currentModel.targetClazz as! UIViewController.Type).init()
             if let navi =  self.navigationController{
@@ -96,7 +96,9 @@ extension HSettingTableViewController{
         return self.dataArray.count;
     }
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return cellHeight
+        let group = self.dataArray[indexPath.section];
+        let model:BaseModel = group[indexPath.row];
+        return model.cellStatus.cellHeight
     }
     /**组头*/
     override func  tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -104,9 +106,9 @@ extension HSettingTableViewController{
         if let view = group.headView{
             return view.height + 2*view.y
         }else if let _ = group.headText{
-            return sectionHeadHeight
+            return group.status.sectionHeadHeight
         }else{
-            return sectionNotTextHeight
+            return group.status.sectionHeadHeight
         }
     }
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -131,7 +133,7 @@ extension HSettingTableViewController{
         if let view = group.footView{
             return view.height + 2*view.y
         }else if let _ = group.footText{
-            return sectionFootHeight
+            return group.status.sectionFootHeight
         }else{
             return 0
         }

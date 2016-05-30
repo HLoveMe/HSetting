@@ -16,7 +16,7 @@
 		B2E207131C5A1CAA004FF612 /* BaseSettingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E207121C5A1CAA004FF612 /* BaseSettingTests.swift */; };
 		B2E2071E1C5A1CAA004FF612 /* BaseSettingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E2071D1C5A1CAA004FF612 /* BaseSettingUITests.swift */; };
 		B2E207311C5A1DFF004FF612 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E207301C5A1DFF004FF612 /* BaseModel.swift */; };
-		B2E207331C5A2245004FF612 /* SettingArrowLableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E207321C5A2245004FF612 /* SettingArrowLableModel.swift */; };
+		B2E207331C5A2245004FF612 /* SettingArrowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E207321C5A2245004FF612 /* SettingArrowModel.swift */; };
 		B2E207351C5A259E004FF612 /* SettingRefreshModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E207341C5A259E004FF612 /* SettingRefreshModel.swift */; };
 		B2E207371C5A27E9004FF612 /* SettingGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E207361C5A27E9004FF612 /* SettingGroup.swift */; };
 		B2E207391C5A29FF004FF612 /* HSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E207381C5A29FF004FF612 /* HSettingTableViewController.swift */; };
@@ -61,7 +61,7 @@
 		B2E2071D1C5A1CAA004FF612 /* BaseSettingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSettingUITests.swift; sourceTree = "<group>"; };
 		B2E2071F1C5A1CAA004FF612 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2E207301C5A1DFF004FF612 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
-		B2E207321C5A2245004FF612 /* SettingArrowLableModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingArrowLableModel.swift; sourceTree = "<group>"; };
+		B2E207321C5A2245004FF612 /* SettingArrowModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingArrowModel.swift; sourceTree = "<group>"; };
 		B2E207341C5A259E004FF612 /* SettingRefreshModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingRefreshModel.swift; sourceTree = "<group>"; };
 		B2E207361C5A27E9004FF612 /* SettingGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingGroup.swift; sourceTree = "<group>"; };
 		B2E207381C5A29FF004FF612 /* HSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSettingTableViewController.swift; sourceTree = "<group>"; };
@@ -177,7 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				B2E207301C5A1DFF004FF612 /* BaseModel.swift */,
-				B2E207321C5A2245004FF612 /* SettingArrowLableModel.swift */,
+				B2E207321C5A2245004FF612 /* SettingArrowModel.swift */,
 				B2E207341C5A259E004FF612 /* SettingRefreshModel.swift */,
 				B2E207361C5A27E9004FF612 /* SettingGroup.swift */,
 			);
@@ -334,7 +334,7 @@
 			files = (
 				B2E7CC231C5C444E00355BC2 /* SettingVC2.swift in Sources */,
 				B2E207311C5A1DFF004FF612 /* BaseModel.swift in Sources */,
-				B2E207331C5A2245004FF612 /* SettingArrowLableModel.swift in Sources */,
+				B2E207331C5A2245004FF612 /* SettingArrowModel.swift in Sources */,
 				B2E207351C5A259E004FF612 /* SettingRefreshModel.swift in Sources */,
 				B2E7CC251C5C457300355BC2 /* resultViewController.swift in Sources */,
 				B2E207001C5A1CA9004FF612 /* ViewController.swift in Sources */,

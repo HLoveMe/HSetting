@@ -9,54 +9,44 @@
 import UIKit
 
 class SettingTableViewCell: UITableViewCell {
-    lazy var lable:UILabel =  {
-        let one = UILabel.init(frame: CGRectZero)
-        return one
-    }()
-    lazy var Hswitch:SettingSwitch = {
-        var one =  SettingSwitch()
-        one.addTarget(self, action:"switchStateChange:", forControlEvents:.ValueChanged)
-        return one
-    }()
     let  screenWidth:CGFloat = UIScreen.mainScreen().bounds.width
     private var currentAssistView:UIView?
+    
     var settingModel:BaseModel!{
         didSet{
             self.loadSubViews()
         }
     }
-    
-    
     func loadSubViews(){
         (self.contentView.subviews as NSArray).enumerateObjectsUsingBlock { (View, _, _) -> Void in
             View.removeFromSuperview()
         }
         self.imageView?.image = UIImage.init(named: self.settingModel.imageName)
-        self.textLabel?.font = cellLabelFont
+        self.textLabel?.font = UIFont.systemFontOfSize(settingModel.cellStatus.cellLabelSize)
         self.textLabel?.text  = self.settingModel.title
         self.selectionStyle = .None;
         self.accessoryView = nil
         self.currentAssistView = nil
-        if (settingModel is SettingArrowLableModel){
+        self.currentAssistView =  settingModel.assistView
+        if (settingModel is SettingArrowModel){
             self.selectionStyle = .Blue
-            let model = settingModel as! SettingArrowLableModel
+            let model = settingModel as! SettingArrowModel
             model.assistView?.removeFromSuperview()
             self.accessoryType = .DisclosureIndicator
-            if let title = model.assistTitle{
-                self.contentView.addSubview(self.lable)
-                self.currentAssistView =  self.lable
-                let size = title.getSize(cellAssistFont, size: CGSizeMake(cellAssistLabelWidth, cellAssistSize))
-                self.lable.frame = CGRectMake(screenWidth - size.width - 34 , 0, size.width, self.height)
-                self.lable.textAlignment = .Center
-                self.lable.font = cellAssistFont
-                self.lable.text = title
+            if model.type == .Label{
+                let assistView:UILabel = self.settingModel.assistView as! UILabel
+                self.contentView.addSubview(assistView)
+                let size = assistView.text!.getSize(settingModel.cellStatus.cellAssistFont, size: CGSizeMake(settingModel.cellStatus.cellAssistLabelWidth, settingModel.cellStatus.cellAssistSize))
+                assistView.frame = CGRectMake(screenWidth - size.width - 34 , 0, size.width,settingModel.cellStatus.cellHeight)
+                assistView.textAlignment = .Center
+                assistView.font = settingModel.cellStatus.cellAssistFont
             }else if let custom  =  model.assistView {
                 let x = screenWidth - custom.width - 34
-                let hei = custom.height < cellHeight ? custom.height : cellHeight
-                let y = (cellHeight - hei)/2
+                let hei = custom.height < settingModel.cellStatus.cellHeight ? custom.height : settingModel.cellStatus.cellHeight
+                let y = (settingModel.cellStatus.cellHeight  - hei)/2
                 custom.frame = CGRectMake(x,y, custom.width,hei)
                 self.contentView.addSubview(custom)
-                self.currentAssistView =  custom
+               
             }
         }else if(settingModel is SettingRefreshModel){
             self.accessoryType = .None
@@ -67,39 +57,35 @@ class SettingTableViewCell: UITableViewCell {
                 self.selectionStyle = .Blue
                 break
             case .Label:
+                let assistView:UILabel = self.settingModel.assistView as! UILabel
                 self.selectionStyle = .Blue
-                self.contentView.addSubview(self.lable)
-                self.currentAssistView =  self.lable
-                self.accessoryView = self.lable
-                guard let _ = model.assistText else{break}
-                let size = model.assistText!.getSize(cellAssistFont, size: CGSizeMake(cellAssistLabelWidth, cellAssistSize))
-                self.lable.frame = CGRectMake(0 , 0, size.width+10, self.height)
-                self.lable.font = cellAssistFont
-                self.lable.textAlignment = .Center
-                self.lable.text = model.assistText ?? ""
+                self.contentView.addSubview(assistView)
+                self.accessoryView = assistView
+                let size = assistView.text!.getSize(settingModel.cellStatus.cellAssistFont, size: CGSizeMake(settingModel.cellStatus.cellAssistLabelWidth, settingModel.cellStatus.cellAssistSize))
+                assistView.frame = CGRectMake(0 , 0, size.width+10,settingModel.cellStatus.cellHeight)
+                assistView.font = settingModel.cellStatus.cellAssistFont
+                assistView.textAlignment = .Center
                 break
-            case .Other:
+            case .Custom:
                 guard let custom = model.assistView else{break}
-                if (custom.isKindOfClass(NSClassFromString("UIControl")!)){
-                    self.selectionStyle = .None
-                }else{
-                    self.selectionStyle = .Blue
-                }
                 let x = self.contentView.width - custom.width + 15
-                custom.frame =  CGRectMake(x, 0, custom.width, cellHeight)
+                let hei = custom.height < settingModel.cellStatus.cellHeight ? custom.height : settingModel.cellStatus.cellHeight
+                let y = (settingModel.cellStatus.cellHeight - hei)/2
+                custom.frame =  CGRectMake(x, y, custom.width,hei)
                 self.contentView.addSubview(custom)
-                self.currentAssistView = custom
                 self.accessoryView = custom
                 break
             case .Switch:
-                self.accessoryView = self.Hswitch
-                self.currentAssistView = self.Hswitch
-                self.Hswitch.mark =  self.textLabel?.text
+                let customView:SettingSwitch = model.assistView! as! SettingSwitch
+                customView.removeTarget(self, action: #selector(SettingTableViewCell.switchStateChange(_:)), forControlEvents: .ValueChanged)
+                customView.addTarget(self, action:#selector(SettingTableViewCell.switchStateChange(_:)), forControlEvents:.ValueChanged)
+                self.accessoryView = customView
+                customView.mark =  self.textLabel?.text
                 let flag = NSUserDefaults.getSwitchState((self.textLabel?.text)!)
                 if let _ =  flag{
-                    self.Hswitch.setOn(flag!, animated:true)
+                    customView.setOn(flag!, animated:true)
                 }else{
-                    self.Hswitch.setOn(model.assistSwitchInitialState, animated: true)
+                    customView.setOn(model.assistSwitchInitialState, animated: true)
                 }
                 break
             }

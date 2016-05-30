@@ -8,7 +8,10 @@
 
 import UIKit
 class SettingGroup{
-    var itemArray:[BaseModel]?
+    var status:SectionStatus = SectionStatus()
+    
+    var itemArray:[BaseModel]! = [BaseModel]()
+    
     var footBackColor:UIColor?
     var footText:String?
     var footView:UIView?
@@ -37,5 +40,8 @@ class SettingGroup{
      func setHeadView(option:()->(UIView?))->SettingGroup{
         self.headView = option()
         return self
+    }
+    subscript(index:Int)->BaseModel{
+        return itemArray[index]
     }
 }

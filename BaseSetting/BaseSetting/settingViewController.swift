@@ -16,37 +16,45 @@ func  randomColor() ->UIColor {
 class settingViewController: HSettingTableViewController {
     /**重写*/
     override func loadData() {
-//        SettingArrowLableModel  点击跳转到下界面
+//        SettingArrowModel  点击跳转到下界面
 
         /**自定义辅助视图*/
-        let one  = SettingArrowLableModel.init(title: "青铜", imageName: "stage_0", function: nil, targetClazz:UIViewController.self).setAssistCustomView { () -> (UIView) in
+        let one  = SettingArrowModel.init(title: "青铜", imageName: "stage_0", assistType: .Custom, function: nil, targetClazz:UIViewController.self).setAssistCustomView { () -> (UIView) in
            let one = UISegmentedControl.init(items: ["One","Two"])
             one.frame = CGRectMake(0, 0, 100,40)
             one.selectedSegmentIndex = 1
            return one
         }
+        
         one.setfunction { (_, view, _) -> () in
            let index = (view as! UISegmentedControl).selectedSegmentIndex
            let title = (view as! UISegmentedControl).titleForSegmentAtIndex(index)
             print("\(title)")
         }
+        one.height = 100
+        
         
         /**传入文本 使用Label*/
-        let two  = SettingArrowLableModel.init(title: "白银", imageName: "stage_1", function: { (_,view,_) -> () in
+        let two  = SettingArrowModel.init(title: "白银", imageName: "stage_1",assistType: .Label ,function: { (_,view,_) -> () in
             let lab = view as! UILabel
                 print("\(lab.text)")
-            }, targetClazz: UIViewController.self).setAssistText("我的段位")
-        
+            }, targetClazz: UIViewController.self).setAssistLabelText("我的段位")
+        /**设置cell属性*/
+        var status = CellStatus()
+        status.cellAssistFont = UIFont .boldSystemFontOfSize(17)
+        status.cellHeight=60;
+        two.cellStatus=status
         
         /**在现有基础上对 cell进行其他操作*/
-        let twoThere = SettingArrowLableModel.init(title: "黄金", imageName: "stage_2", function: nil, targetClazz: UIViewController.self).setAssistCustomView { () -> (UIView) in
+        let twoThere = SettingArrowModel.init(title: "黄金", imageName: "stage_2",assistType:.Custom,function: nil, targetClazz: UIViewController.self).setAssistCustomView { () -> (UIView) in
             let one  = UIButton.init(frame: CGRectMake(0, 5, 100, 70))
             one.setTitle("自定义按钮", forState:.Normal)
             one.backgroundColor = UIColor.orangeColor()
-            one.addTarget(self, action: "click", forControlEvents: .TouchUpInside)
+            one.addTarget(self, action: #selector(settingViewController.click), forControlEvents: .TouchUpInside)
             return one
         }.setOperationCell { (cell) -> () in
               cell.contentView.backgroundColor = randomColor()
+             cell.getCurrentAssistView()?.backgroundColor = randomColor()
         }
         
         
@@ -60,19 +68,21 @@ class settingViewController: HSettingTableViewController {
 //       SettingRefreshModel 点击不会跳转
         
         /**没有任何辅助视图*/
-        let none =  SettingRefreshModel.init(title: "铂金", imageName: "stage_3", type: AssistType.None, function: nil)
+        let none =  SettingRefreshModel.init(title: "铂金", imageName: "stage_3", assistType: AssistType.None, function: nil)
         
         /**switch作为辅助视图*/
-        let there = SettingRefreshModel.init(title: "砖石", imageName: "stage_4", type: AssistType.Switch, function: nil).setSwitchState(true)
+        let there = SettingRefreshModel.init(title: "砖石", imageName: "stage_4", assistType: AssistType.Switch, function: nil).setSwitchState(true)
+        there.height = 100
         
         /**label作为辅助视图*/
-        let four = SettingRefreshModel.init(title: "大师", imageName: "stage_5", type: AssistType.Label, function:  { (_,view,_) -> () in
+        let four = SettingRefreshModel.init(title: "大师", imageName: "stage_5", assistType: AssistType.Label, function:  { (_,view,_) -> () in
             let lab = view as! UILabel
             print("\(lab.text)")
         }).setAssistLabelText("深圳")
+        four.height=60
       
         /**自定义辅助视图*/
-        let other = SettingRefreshModel.init(title: "最强王者", imageName: "stage_6", type: AssistType.Other, function:  { (_,view,_) -> () in
+        let other = SettingRefreshModel.init(title: "最强王者", imageName: "stage_6", assistType: AssistType.Custom, function:  { (_,view,_) -> () in
             let act = view as! UIActivityIndicatorView
             if act.isAnimating() {
                 act.stopAnimating()
@@ -94,7 +104,7 @@ class settingViewController: HSettingTableViewController {
         group1.footBackColor = UIColor.yellowColor()
         
         /**测试*/
-        let 我 = SettingArrowLableModel.init(title: "怎么往下传值  往上传值刷新UI", imageName: "", function: nil, targetClazz: SettingVC2.self)
+        let 我 = SettingArrowModel.init(title: "怎么往下传值  往上传值刷新UI", imageName: "",assistType:.None,function: nil, targetClazz: SettingVC2.self)
         let 组 = SettingGroup.groupWithItems([我], head: nil, foot: nil)
         
         dataArray.append(group0)

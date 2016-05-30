@@ -12,6 +12,8 @@ class ViewController: UIViewController {
     private var key = "dada"
     override func viewDidLoad() {
         super.viewDidLoad()
+//        let a:CellStatus = CellStatus()
+//        let aaa=0
     }
 
     override func didReceiveMemoryWarning() {
